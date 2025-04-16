@@ -2,51 +2,69 @@
 
 ## About this Workshop
 
-This workshop will demonstrate how both developers and business executives can leverage the cutting-edge capabilities of **Oracle Database 23ai** to create a powerful, intelligent mortgage loan underwriting system. Using real-world mortgage loan scenarios, you’ll explore how to integrate AI-driven tools such as **AI Vector Search**, **Graph Analytics**, and **JSON/JSON Duality Views** to make smarter, faster decisions in modern banking and finance.
+In this workshop, you will build a GenAI app on Oracle Database 23ai.
 
+Estimated time: 2-3 hours
 
+#### ➡️ **Start with the demo!**
 
-  [](videohub:1_mg30brw3)
+Check out the demo to see how Generative AI and Vector Search in the database, can operate against multiple types of data—empowering you to build real applications and make faster, smarter decisions. The best part? **No setup required**—just start with Lab 1 and follow the guide. You can explore guided use cases or experiment on your own using the demo application.
 
-<!-- *You may add an option video, using this format: [](youtube:YouTube video id)*
+#### ➡️ **Start coding!**
 
-  [](youtube:zNKxJjkq0Pw) -->
+Lab 2 describes how to get access to our browser-based development environment. Make sure to check it out before continuing to Lab 3 and 4, where you will get hands-on and start interacting with Python with Oracle Database 23ai:
 
+✅ Connect to the database using Python
+
+✅ Run SQL queries with Python
+
+✅ Create JSON Duality Views
+
+✅ Connect to the database using a Mongo API driver
+
+✅ Use the Mongo API to query and update data
+
+✅ Implement AI Vector Search
+
+In lab 4, you will learn how to **implement a working example of retrieval-augmented generation (RAG) using Oracle Database 23ai.**
+
+#### ➡️ **Start experimenting!**
+
+You can also experiment with the code in your own environment. The workshop environment is flexible and allows you try out different things:  
+Start building your own version of the loan approval application!
+
+To get things started we invite you to watch the introduction video to see the demo in action:
+
+  [](videohub:1_mg30brw3:medium)
 
 ### Objectives
 
-The primary goal of this workshop is to demonstrate **Oracle Database 23ai’s** capabilities in automating and enhancing the mortgage underwriting process. Through hands-on demonstrations and technical deep-dives, the workshop will guide attendees through the process of integrating Oracle 23ai features into a custom web application designed for mortgage loan underwriting.  
-By leveraging **AI Vector Search**, **Graph**, and **JSON/JSON DUALITY VIEWS**, this project will help participants understand how to: 
+* Learn how Oracle Database 23ai capabilities can be used to automate and enhance the loan approval process
 
- 
-* Use AI Vector Search to ask questions about the applicant’s financial data. 
+* Start coding with Python and Oracle's Python driver `oracledb`
 
-* Track the loan approval status and update loan applications. 
+* Learn how to implement and interact with Oracle Database 23ai's new features using Python
 
-* Generate PDF reports on loan decisions. 
+* Implement a working example of retrieval-augmented generation (RAG) using Oracle Database 23ai
 
-* Analyze applicant data using a Wealth Management Graph. 
-
-* Send AI-generated emails to applicants notifying them of their approval status. 
+* Try a coding challenge and implement a solution using AI Vector Search
 
 ### Prerequisites
 
 This lab assumes you have:
-* An Oracle account
+
+* An Oracle account to submit your a LiveLabs Sandbox reservation.
+
+* Basic knowledge of Python.
+
+* Basic knowledge of Oracle Database, i.e., how to run queries.
 
 ## Learn More
 
 * [Oracle Database 23ai Documentation](https://docs.oracle.com/en/database/oracle/oracle-database/23/)
-* [URL text 2](http://docs.oracle.com)
 
 ## Acknowledgements
 
 * **Authors** - Linda Foinding, Francis Regalado
-* **Contributors** - Kamryn Vinson, Otis Barr, Eddie Ambler, Ramona Magadan, Matt Kowalik
-
-* **Last Updated By/Date** - Kamryn Vinson, March 2025
-
-* **Author** - <Name, Title, Group>
-* **Contributors** -  <Name, Group>
-* **Last Updated By/Date** - <Name, Month Year>
-
+* **Contributors** - Kamryn Vinson, Otis Barr, Ramona Magadan, Eddie Ambler, Kevin Lazarz
+* **Last Updated By/Date** - Linda Foinding, April 2025
