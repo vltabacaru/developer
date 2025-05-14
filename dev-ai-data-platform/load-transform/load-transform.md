@@ -4,109 +4,182 @@
 
 ## Introduction
 
-In this lab, you’ll practice importing data from Oracle Object Storage and preparing it for analysis in various formats. You’ll learn how to load both CSV and JSON files into Oracle Autonomous Database and transform them for easier use. By the end of this lab, you’ll understand how to efficiently move data from Object Storage—regardless of its format—and apply transformations to make it searchable, shareable, and ready for analysis.
+In this lab, you’ll practice setting up the live feed capabilities,that can be used to load data that is continuously collected into cloud object storage.  When a load job is enabled for live feed, it is connected to the OCI event notification and subscription mechanism, so that every time a new object is created in the object store bucket, it triggers the live feed, loading the contents to the database
 
-## Task 1: Load CSV Data from Object Storage (Approved Affordable Home Zones)
+**Note:** To complete this lab, you will alternate between Oracle Cloud Infrastructure Console pages and Oracle Database Actions pages.  Selecting Database Actions will open a new tab.
 
-In this task, you’ll work with a CSV file stored in your Oracle Object Storage bucket. A CSV file is a simple, tabular format similar to a spreadsheet, making it ideal for structured data like affordable home zone information.
+## Task 1: Create a Notifications Service Subscription Topic.
 
-Here’s what you’ll do:
+  1. Open the OCI Console at cloud.oracle.com, then click the icon in the upper left corner to open the **Navigation Menu**.
 
-📥 **Access the Object Storage Bucket**
+  ![Click Navigation Menu](./images/task-1-scrn-1.png)
 
-* Locate the CSV file containing **"Approved Affordable Homes Zones"** data in your **Object Storage bucket**.
+  2. Select **Developer Services** from the Navigation Menu
 
-* Understand the structure of the file by reviewing its **columns and data types** (e.g., zone names, approval dates, or geographic coordinates).
+  ![Click Developer Service](./images/task-1-scrn-2.png)
 
-🛠️ **Load the CSV File into Oracle Autonomous Database**
+  3. Click **Notifications** under the **Application Integration** heading.
 
-Use Oracle tools (such as **SQL Developer Web** or **Data Pump**) to import the CSV file into your database.
+  ![Click Notifications](./images/task-1-scrn-3.png)
 
-- Create a **new table** or use an **existing one** to store the data.
-- Ensure **column mappings are accurate** to preserve data integrity.
+  4. Click **Create Topic**
 
-✅ **Validate the Imported Data**
+  ![Click Create Topic](./images/task-1-scrn-4.png)
 
-Run simple **SQL queries** to verify that all **rows and columns** were imported correctly.
+  5. Enter details, then click the **Create** button.
 
-- Check for any **missing or corrupted data** and troubleshoot if necessary.
+  ![Create Topic](./images/task-1-scrn-5.png)
 
-📊 **Analyze Home Zone Data**
+## Task 2: Create a Events Service Rule.
 
-Use **SQL queries** to analyze the imported data directly in **Oracle Autonomous Database**. For example:
+  1.	Open the **Navigation Menu** Click the icon in the upper left corner to 
 
-- Identify **zones with the highest approvals**.
-- Filter zones by specific criteria, such as **location** or **approval status**.
+  ![Click Navigation Menu](./images/task-2-scrn-1.png)
 
-By the end of this task, you’ll have successfully **imported and validated CSV data**, making it **ready for analysis** within Oracle.
+  2. Select **Observations & Management** from the Navigation Menu
 
-## Task 2: Load JSON Data from Object Storage & Transform via ETL (Loan Offers)
+  ![Select O&M](./images/task-2-scrn-2.png)
 
-In this task, you’ll work with JSON files stored in your Object Storage bucket. JSON (JavaScript Object Notation) is a structured text format used for representing data as key-value pairs, often used for more complex datasets like loan offers. You’ll perform an ELT (Extract, Load, Transform) process to clean and reformat the data for analysis.
+  2. Click **Rules** under the **Events Services** heading.
 
-📂 **Access the JSON File**
+  ![Select Rules](./images/task-2-scrn-3.png)
 
-* Locate the JSON file containing **"Loan Offers"** data in your **Object Storage bucket**.
+  3. Click **Create Rule** and enter details.
 
-* Review its structure to understand the **key-value pairs** (e.g., loan ID, interest rate, applicant details).
+  ![Create Rule](./images/task-2-scrn-4.png)
 
-📥 **Load JSON Data into Oracle Autonomous Database**
+  4. Enter Rule details.
 
-* Use Oracle’s **JSON support features** to load the file into a **dedicated table designed for JSON storage**.
+  ![Create Rule](./images/task-2-scrn-5.png)
 
-* Leverage tools like **SQL Developer Web** or **REST APIs** to streamline the loading process.
+    * Enter the following Details under **Rule Conditions**:
+         * **Condition:** Event Type
+         * **Service Name:** Object Storage
+         * **Event Type:** Object – Create
+    * Enter the following Details under Actions
+         * **Action Type:** Notifictions
+         * **Notifications Compartment:** Select the compartment to use for the notifications
+         * **Topic:** Select the name of the topic you created earlier.
 
-🔄 **Transform JSON Data Using ELT**
+    * Click **Create Rule**.
 
-* Extract meaningful information from **nested JSON structures** using SQL/JSON functions like `JSON_TABLE` or `JSON_VALUE`.
+## Task 3: Create a Live Table Feed and Copy the notification URL
 
-Clean and reformat the data as needed:
+ 1.	Click the icon in the upper left corner to open the **Navigation Menu**.
 
-- **Normalize nested structures** into relational tables.
-- **Convert inconsistent formats** (e.g., dates or currency) into standard formats.
-- Store **transformed data** in a new table optimized for querying.
+  ![Click Navigation Menu](./images/task-2-scrn-1.png)
 
-🔗 **Join Loan Offers with Other Data**
+  2. Select **Oracle Database** from the Navigation Menu
 
-* Combine loan offer data with other tables in your database using **SQL joins**.
+  ![Select O&M](./images/task-3-scrn-1.png)
 
-For example:
+  3. Select **Autonomous Database**
 
-- Link loan offers with **customer demographics** or **property details**.
-- Run advanced queries to gain insights:
-  - Identify **trends in loan offers** by region or applicant type.
-  - Analyze **loan approval rates** based on interest rates or terms.
+  ![Select Rules](./images/task-3-scrn-2.png)
 
-✅ **Validate and Test Queries**
+  4. Navigate to the assigned Autonomous Database.
 
-* Verify that transformations were applied correctly by running **test queries** on the transformed data.
+    * Confirm the assigned **Tenancy** is being used.  If not, use the drop-down provided to select the assigned one.
+    * Confirm the assigned **Compartment** is being used.  If not, click on the icon and navigate to the assigned one.
 
-* Ensure that all **key fields are accessible** and properly formatted for analysis.
+    * Select the assigned **Autonomous Database** from list displayed.
 
-By completing this task, you’ll understand how to handle complex JSON files, transform them using ELT processes, and integrate them with other datasets for deeper insights.
+    ![Select Assigned ADB](./images/navigate-to-assigned-adb.png)
 
-> **Note:** `<SCREENSHOTS!>`
+  5. Open the **Database Actions** menu from the Autonomous Database General Information page, and select **Data Load**.
 
-<!--
-* You’ll grab a CSV (comma-separated values) file from your Object Storage bucket—think of it like a simple spreadsheet.
+      ![Click Database Actions - Data Load](./images/db-actions-data-load.png)
 
-* You’ll import this data into your database, so you can easily analyze home zone data right inside Oracle.
+    >**Note:** This will open a new tab, giving us two tabs that we will alternate between for the rest of the workshop.
 
-* Next, you’ll handle JSON files—these are more like structured text that show data in pairs of names and values.
+  6. Click the user icon in the upper right corner of the **Database Actions** landing page, to sign-off as the ADMIN user.
 
-* You’ll run an ETL (Extract, Transform, Load) process to clean or reformat that JSON data and get it ready for queries.
+      ![Create Data Product Share](./images/admin-user-sign-out.png "Create Data Product Share")
 
-* Once it’s loaded, you can join it with other information in your database to see loan offers in a whole new light. -->
+  7. Sign-in at **Database Actions Launchpad** as LOAN user.
 
----
+      ![Create Data Product Share](./images/loan-user-sign-on.png "Create Data Product Share")
 
-## Key Terms
+  8. Select **Feed Data** from the options listed at top of page.
 
-### **Affordable Housing Zone**
+      ![Select Feed Data](./images/task-3-scrn-3.png)
 
-Affordable Housing Zones are an economic development tool that allows people to invest in distressed areas in the United States. Their purpose is to spur economic growth and job creation in low-income communities while providing tax benefits to investors.
+  9. Click the **Create Live Table Feed** button to enter the **Create Live Feed** wizard.
 
----
+      ![Create Live Feed](./images/task-3-scrn-4.png)
+
+  10. Select desired Cloud Store location, then click **Next**.
+
+      ![SElect Cloud Store Location](./images/task-3-scrn-5.png)
+
+  11. Enter desired Table Settings, then click **Next**.
+
+      ![Load Data from Object Storage](./images/task-3-scrn-6.png)
+
+  12. Verify that the expected results are shown on the Preview page, then click **Next**.
+
+      ![Load Data from Object Storage](./images/task-3-scrn-7.png)
+
+  13. Enter details on the page below...
+
+    * **Live Table Feed Name:**
+    * **Enable for Notification check box:** check
+    * **Enable for Scheduling check box:** uncheck
+
+    ![Load Data from Object Storage](./images/task-3-scrn-8.png)
+
+    * Click **Create**
+
+  14. When the popup box appears, select **Yes** to run the Live Feed.
+
+      ![Load Data from Object Storage](./images/task-3-scrn-9.png)
+
+  15. **Review** the details for the newly created Live Feed.  Then click the hamburger button in the upper left corner.
+
+      ![Load Data from Object Storage](./images/task-3-scrn-10.png)
+
+  16. Select **Show Notification URL** from the dropdown list.
+
+      ![Load Data from Object Storage](./images/task-3-scrn-11.png)
+
+  17. Copy the notification URL for the live table feed and click OK to proceed to next task.
+
+      ![Load Data from Object Storage](./images/task-3-scrn-12.png)
+
+## Task 4: Create a Notifications Service Subscription
+
+  1. Click on the **Navigation Menu**, then select **Developer Services**.
+
+  ![Access the Object Storage Bucket](./images/task-1-scrn-2.png)
+
+  3. Click **Notifications** under the **Application Integration** heading.
+
+  ![Access the Object Storage Bucket](./images/task-1-scrn-3.png)
+
+  4. Select **Subscriptions** (on the left side of the page, just below Topics).  The status will be **Active**.
+
+  ![Access the Object Storage Bucket](./images/task-4-scrn-4.png)
+
+  5. Click **Create Subscription**.
+
+  ![Access the Object Storage Bucket](./images/task-4-scrn-4.png)
+
+  6. Enter the Subscription details.
+
+  ![Access the Object Storage Bucket](./images/task-4-scrn-6.png)
+
+    * Provide the following:
+    * **Subscription topic:** Select the subscription topic you created in Task 2
+    * **Protocol:** Email
+    * **URL** Paste in the URL you copied in Task 3
+
+    * Click **Create**
+
+  7. Switch to the Database Actions tab to review the card for the live table feed you are configuring for a notification-based feed.  It should reflect an **Active** notification status..
+
+  ![Load Data from Object Storage](./images/task-5-scrn-4.png)
+
+  * You will receive email notifications when specific live feed events occur and any new files uploaded to the bucket will automatically be loaded into the live feed table.
 
 ## Learn More
 
@@ -115,8 +188,8 @@ Affordable Housing Zones are an economic development tool that allows people to 
 
 ## Acknowledgements
 
-* **Authors** - Matt Kowalik, Otis Barr
-* **Contributors** - Eddie Ambler, Ramona Magadan
-* **Last Updated By/Date** - TBC
+* **Authors** - Eddie Ambler, Otis Barr, Matt Kowalik
+* **Contributors** - Mike Matthews, Marty Gubar, Francis Regalado, Ramona Magadan
+* **Last Updated By/Date** - 04-28-2025
 
 Copyright (C) Oracle Corporation.

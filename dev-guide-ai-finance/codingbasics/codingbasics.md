@@ -1,4 +1,4 @@
-# Coding Basics on 23ai
+# Coding Basics on Oracle Database 23ai
 
 ## Introduction
 
@@ -34,11 +34,7 @@ This lab assumes you have:
 
 All of the coding examples will be executed in a new Jupyter Notebook.
 
-1. Select the **streamlit** folder.
-
-    ![Click Streamlit](./images/click-streamlit.png " ")
-
-2. Open a new **Jupyter Notebook** by clicking on **Python(ipykernel)** notebook.
+1. Open a new **Jupyter Notebook** by clicking on **Python(ipykernel)** notebook.
 
     ![Open Jupyter Notebook](./images/open-new-notebook.png " ")
 
@@ -159,7 +155,7 @@ Now, that we have established a connection, we can start creating our tables and
             cursor.execute("""
                 insert into customers (id, first_name, last_name, email, address, phone_number)
                 values
-                (100001, 'Dom', 'Giles', 'dg7889@gmail.com', '10 smith street', '34454-1667'),
+                (100001, 'Dan', 'Thompson', 'dt7889@gmail.com', '10 smith street', '34454-1667'),
                 (223223, 'John', 'Smith', 'jsmith@hotmail.com', 'the grove', '28902'),
                 (238121, 'Janet', 'White', 'jw123@gmail.com', 'apartment 256, 120 east street', '18092-7980'),
                 (78993, 'Sue', 'Gray', 'sue_gray@testmail.com', '2345 main street', '34454')
@@ -185,7 +181,7 @@ Now, that we have established a connection, we can start creating our tables and
     </copy>
     ```
 
-    ![query customers](./images/query-customers.png " ")
+    ![query customers](./images/task3.png " ")
 
 ### **Task Summary**
 
@@ -283,11 +279,11 @@ Next, we want to explore how we can use a **JSON Duality View** to query our new
                     print(f"Error formatting JSON: {e}")
                     print(raw_json)
 
-    query_dv("Dom")
+    query_dv("Dan")
     </copy>
     ```
 
-    ![dv](./images/query-dv.png " ")
+    ![dv](./images/task4-1.png " ")
 
     You notice that our code has some significant changes. We are now passing a parameter into our query, and we are also formatting the output of our query. Let's have a closer look:
 
@@ -299,11 +295,11 @@ Next, we want to explore how we can use a **JSON Duality View** to query our new
 
     🔴 **`json.dumps(raw_json, default=str, indent=4)`** - This is a Python function that formats our output. We are passing in the `raw_json` variable as an argument and formatting it with the `default=str` parameter.
 
-    🔴 **`query_dv("Dom")`** - Here we are calling our query function again, but this time passing in the string `"Dom"` as a parameter. This will return all rows where `first_name` is equal to `"Dom"`. The result is displayed in JSON format. 
+    🔴 **`query_dv("Dan")`** - Here we are calling our query function again, but this time passing in the string `"Dan"` as a parameter. This will return all rows where `first_name` is equal to `"Dan"`. The result is displayed in JSON format. 
 
 >**Note:** Notice that our output is a nicely formatted document that now not only includes our customer data but also all orders for that customer.
 
-## Task 5: Connect to the database using `pymongo`
+## Task 5: Connect to the database using pymongo
 
 Next, we will connect to our database and query the data using a the Python driver `pymongo`. That way we can interact with Oracle Database 23ai using Mongo API which allows us to use the same syntax as MongoDB. We will also learn how to update our database using `pymongo` in a following task.
 
@@ -344,11 +340,11 @@ Now, that we have established a connection to Oracle Database 23ai via Mongo API
         mongo_data = col.find_one({"FirstName": first_name})
         return mongo_data
 
-    get_mongo("Dom")
+    get_mongo("Dan")
     </copy>
     ```
 
-    ![dv](./images/mongo-query.png " ")    
+    ![dv](./images/task6.png " ")    
 
     As you can see, the result matches that of the SQL query (`query_dv()`), though the MongoDB syntax requires significantly less code.
 
@@ -356,13 +352,13 @@ Now, that we have established a connection to Oracle Database 23ai via Mongo API
 
 Next, let's update some data in our database using MongoDB syntax. Let's write a function that will help us do this.
 
-1. Wen want to change the email address of our customer "Dom" to "dom@aol.com". Copy & paste the following code into a **new cell** and run it.
+1. We want to change the email address of our customer "Dan" to "dant@aol.com". Copy & paste the following code into a **new cell** and run it.
 
     ```python
     <copy>
     def update_mongo():
         col = mongo_connect().CUSTOMERS_DV
-        col.update_one({"FirstName": "Dom"}, {"$set": {"Email": "dom@aol.com"}})
+        col.update_one({"FirstName": "Dan"}, {"$set": {"Email": "dant@aol.com"}})
         return
 
     update_mongo()
@@ -373,14 +369,14 @@ Next, let's update some data in our database using MongoDB syntax. Let's write a
 
     ```python
     <copy>
-    get_mongo("Dom")
+    get_mongo("Dan")
     </copy>
     ```
 
     And indeed, we can see that the email address has been updated.
 
 
-    ![dv](./images/mongo-update.png " ")
+    ![dv](./images/task7-1.png " ")
 
 
 3. What if we want to do something more complex, for example updating a nested field? For example, let's say we want to change TotalValue field. Copy the following code into a new cell and run it.
@@ -388,21 +384,18 @@ Next, let's update some data in our database using MongoDB syntax. Let's write a
     ```python
     <copy>
     def update_mongo_order():
-            col = mongo_connect().CUSTOMERS_DV
-            col.update_one(
+        col = mongo_connect().CUSTOMERS_DV
+        col.update_one(
             {
-                "FirstName": "Dom",
+                "FirstName": "Dan",
                 "orders.OrderID": 1.0
             },
             {
-                "$set": {
-                    "orders.$.TotalValue": 100
-                }
+                "$set":{"orders.$.TotalValue": 100}
             }
         )
-            return
-
-        update_mongo_order()
+        return
+    update_mongo_order()
         </copy>
         ```
 
@@ -410,11 +403,11 @@ Next, let's update some data in our database using MongoDB syntax. Let's write a
 
     ```python
     <copy>
-    get_mongo("Dom")
+    get_mongo("Dan")
     </copy>
     ```
 
-    ![mongo query total value](./images/mongo-query2.png " ")
+    ![mongo query total value](./images/task7-3.png " ")
 
     You should see that the TotalValue field has been updated from 10.23 to 100.0.
     
@@ -430,7 +423,7 @@ The final step in our basic coding tour with Python and the Oracle Database 23ai
     </copy>
     ```
 
-    ![customer table after update](./images/query-cust-update.png " ")
+    ![customer table after update](./images/task8.png " ")
 
     You can see that also in the relational `customers` table, the email address has been updated.
 
@@ -442,37 +435,36 @@ The final step in our basic coding tour with Python and the Oracle Database 23ai
     </copy>
     ```
 
-    ![orders table after update](./images/query-orders-update.png " ")
+    ![orders table after update](./images/task8.2.png " ")
 
     You can see that also in the relational `orders` table, the total value has been updated.
 
-3. Finally, let's create a new function that allows us to see both tables at once, i.e., we want to join `customers` and `orders` tables together. The function should also allow us to filter by the first name of the customer. Furthermore, the result should be nicely formatted in a table including column headers.  
-    We need to create a new cell with the following code:
+3. Finally, let's create a new function that allows us to see both tables at once, i.e., we want to join `customers` and `orders` tables together. The function should also allow us to filter by the first name of the customer. Furthermore, the result should be nicely formatted in a table including column headers. We need to create a new cell with the following code:
 
     ```python
     <copy>
     import pandas as pd
 
-        def query_customers_with_orders(first_name):
-            with connection.cursor() as cursor:
-                query = """
-                    SELECT *
-                    FROM customers c
-                    JOIN orders o ON c.id = o.customer_id
-                    WHERE c.first_name = :first_name
-                """
-                cursor.execute(query, {"first_name": first_name})
-                rows = cursor.fetchall()
-                column_names = [desc[0] for desc in cursor.description]
-                df = pd.DataFrame(rows, columns=column_names)
-                return df
+    def query_customers_with_orders(first_name):
+        with connection.cursor() as cursor:
+            query = """
+                SELECT *
+                FROM customers c
+                JOIN orders o ON c.id = o.customer_id
+                WHERE c.first_name = :first_name
+            """
+            cursor.execute(query, {"first_name": first_name})
+            rows = cursor.fetchall()
+            column_names = [desc[0] for desc in cursor.description]
+            df = pd.DataFrame(rows, columns=column_names)
+            return df
 
-        df = query_customers_with_orders("Dom")
-        df.head() 
+    df = query_customers_with_orders("Dan")
+    df.head() 
     </copy>
     ```
 
-    ![join tables](./images/join.png " ")
+    ![join tables](./images/task8-last.png " ")
 
     As you can see we included some new features in our function. Let's have a closer look:
 
@@ -491,6 +483,6 @@ In the next labs, you will see several of the coding principles learned and even
 You are now ready to implement you a RAG process using Oracle Database 23ai's new features!
 
 ## Acknowledgements
-* **Author** - Kamryn Vinson
-* **Contributors** -  Linda Foinding, Francis Regalado, Kevin Lazarz
+* **Authors** - Linda Foinding, Kevin Lazarz
+* **Contributors** - Francis Regalado, Kamryn Vinson
 * **Last Updated By/Date** - Kamryn Vinson, April 2025

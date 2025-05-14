@@ -2,9 +2,7 @@
 
 ## Introduction
 
-In this lab, you will build a loan recommendation system powered by Oracle Database 23ai and OCI Generative AI.  
-You will connect to a Oracle Database 23ai, explore customer data, extract relevant insights, and use a Large Language Model (LLM) to generate personalized loan suggestions. The system combines AI with OCI Generative AI to provide personalized loan recommendations.  
-This system integrates AI capabilities with Oracle's robust database technology to deliver targeted financial recommendations.
+In this lab, you will build a loan recommendation system powered by Oracle Database 23ai and OCI Generative AI. You will connect to a Oracle Database 23ai, explore customer data, extract relevant insights, and use a Large Language Model (LLM) to generate personalized loan suggestions. The system combines AI with OCI Generative AI to provide personalized loan recommendations. This system integrates AI capabilities with Oracle's robust database technology to deliver targeted financial recommendations.
 
 This lab uses some of the basic coding samples you created in lab 3, such as cursor.execute and more.
 
@@ -27,11 +25,7 @@ This lab assumes you have:
 
 ## Task 1: Build the application in Jupyter Notebook
 
-1. Select the **streamlit** folder.
-
-    ![Click Streamlit](./images/click-streamlit.png " ")
-   
-2. Open a new **Jupyter Notebook** by clicking on **Pyhton(ipykernel)** notebook.
+1. Open a new **Jupyter Notebook** by clicking on **Pyhton(ipykernel)** notebook.
 
     ![Open Jupyter Notebook](./images/open-new-notebook.png " ")
 
@@ -170,7 +164,7 @@ Here’s what we’ll do:
         prompt = f"""<s>[INST] <<SYS>>You are a Loan Approver AI. Use only the provided context to evaluate the applicant’s profile and recommend loans. Format results as plain text with numbered sections (1. Comprehensive Evaluation, 2. Top 3 Loan Recommendations, 3. Recommendations Explanations, 4. Final Suggestion). Use newlines between sections.</SYS>> [/INST]
         [INST]Available Loan Options:\n{available_loans_text}\nApplicant's Full Profile:\n{customer_profile_text}\nTasks:\n1. Comprehensive Evaluation\n2. Top 3 Loan Recommendations\n3. Recommendations Explanations\n4. Final Suggestion</INST>"""
 
-        genai_client = oci.generative_ai_inference.GenerativeAiInferenceClient(config=oci.config.from_file(os.getenv("OCI_CONFIG_PATH", "~/workshop/.setup/config")), service_endpoint=os.getenv("ENDPOINT"))
+        genai_client = oci.generative_ai_inference.GenerativeAiInferenceClient(config=oci.config.from_file(os.getenv("OCI_CONFIG_PATH", "~/.oci/config")), service_endpoint=os.getenv("ENDPOINT"))
         chat_detail = oci.generative_ai_inference.models.ChatDetails(
             compartment_id=os.getenv("COMPARTMENT_OCID"),
             chat_request=oci.generative_ai_inference.models.GenericChatRequest(messages=[oci.generative_ai_inference.models.UserMessage(content=[oci.generative_ai_inference.models.TextContent(text=prompt)])], temperature=0.0, top_p=1.00),
@@ -364,7 +358,7 @@ Now that the recommendations are vectorized, we can process a user’s question:
 
             print("Generating AI response...")
 
-            genai_client = oci.generative_ai_inference.GenerativeAiInferenceClient(config=oci.config.from_file(os.getenv("OCI_CONFIG_PATH", "~/workshop/.setup/config")), service_endpoint=os.getenv("ENDPOINT"))
+            genai_client = oci.generative_ai_inference.GenerativeAiInferenceClient(config=oci.config.from_file(os.getenv("OCI_CONFIG_PATH", "~/.oci/config")), service_endpoint=os.getenv("ENDPOINT"))
             chat_detail = oci.generative_ai_inference.models.ChatDetails(
                 compartment_id=os.getenv("COMPARTMENT_OCID"),
                 chat_request=oci.generative_ai_inference.models.GenericChatRequest(
@@ -392,7 +386,7 @@ Now that the recommendations are vectorized, we can process a user’s question:
     </copy>
     ```
 
-2. Click the `Run` button to execute the code.
+2. Click the "Run" button to execute the code.
 
 3. Review the result.
 
@@ -421,6 +415,6 @@ You may now proceed to the next lab.
 * [Code with Python](https://www.oracle.com/developer/python-developers/)
 
 ## Acknowledgements
-* **Authors** - Linda Foinding, Francis Regalado
-* **Contributors** - Kamryn Vinson, Eddie Ambler, Kevin Lazarz
+* **Authors** - Kevin Lazarz
+* **Contributors** - Francis Regalado, Linda Foinding, Kamryn Vinson
 * **Last Updated By/Date** - Linda Foinding, April 2025
